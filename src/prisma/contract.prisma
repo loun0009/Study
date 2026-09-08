@@ -1,0 +1,35 @@
+// use prisma-next
+
+model Matiere {
+  id        Int      @id @default(autoincrement())
+  name     String
+  cours    Cours[]
+}
+
+model Cours {
+  id        Int      @id @default(autoincrement())
+  titre     String
+  url       String
+  texteExtrait     String
+  matiereId Int
+  matiere   Matiere @relation(fields: [matiereId], references: [id])
+  chapitres Chapitre[]
+  exercices Exercice[]
+}
+
+model Chapitre {
+  id        Int      @id @default(autoincrement())
+  titre     String
+  contenu   String
+  ordre     Int
+  coursId   Int
+  cours     Cours    @relation(fields: [coursId], references: [id])  
+}
+
+model Exercice {
+  id        Int      @id @default(autoincrement())
+  enonce    String
+  correction  String?
+  coursId   Int
+  cours     Cours    @relation(fields: [coursId], references: [id])
+}
