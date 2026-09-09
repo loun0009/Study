@@ -21,7 +21,7 @@ export default async function HomePage() {
         ))}
       </ul>
       {matieres.length === 0 && (
-        <p className="text-gray-500">Aucune matière pour l'instant.</p>
+        <p className="text-gray-500">Aucune matière pour l&apos;instant.</p>
       )}
     </main>
   );
