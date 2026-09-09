@@ -1,5 +1,5 @@
 "use client";
-
+import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
@@ -18,7 +18,7 @@ export default function SearchBar() {
   if (query.trim().length === 0) {
     return;
   }
-  
+
  // eslint-disable-next-line react-hooks/set-state-in-effect -- déclenche un état de chargement avant un fetch débouncé, pattern légitime
   setLoading(true);
   const timeout = setTimeout(async () => {
@@ -50,24 +50,32 @@ export default function SearchBar() {
         <p className="absolute mt-1 text-sm text-gray-400">Recherche...</p>
       )}
 
-      {!loading && query.trim().length > 0 && (
-        <ul className="absolute z-10 mt-1 w-full rounded-lg border border-gray-200 bg-white shadow-lg max-h-80 overflow-auto">
+      <AnimatePresence>
+        {!loading && query.trim().length > 0 && (
+          <motion.ul
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.15 }}
+            className="absolute z-10 mt-1 w-full rounded-lg border border-gray-200 bg-white shadow-lg max-h-80 overflow-auto"
+          >
           {results.length === 0 && (
-            <li className="px-4 py-2 text-gray-500 text-sm">Aucun résultat</li>
-          )}
-          {results.map((cours) => (
-            <li key={cours.id}>
-              <Link
-                href={`/cours/${cours.id}`}
-                className="block px-4 py-2 hover:bg-gray-50"
-                onClick={() => setQuery("")}
-              >
-                {cours.titre}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
+              <li className="px-4 py-2 text-gray-500 text-sm">Aucun résultat</li>
+            )}
+            {results.map((cours) => (
+              <li key={cours.id}>
+                <Link
+                  href={`/cours/${cours.id}`}
+                  className="block px-4 py-2 hover:bg-gray-50"
+                  onClick={() => setQuery("")}
+                >
+                  {cours.titre}
+                </Link>
+              </li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
