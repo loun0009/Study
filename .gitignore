@@ -53,3 +53,6 @@ dist/
 src/prisma/contract.json
 src/prisma/contract.d.ts
 prisma-next.md
+
+.postman/
+postman/
